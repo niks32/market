@@ -7,6 +7,9 @@ from django.template.loader  import render_to_string
 from django.utils.safestring import mark_safe
 from django.template.base    import TemplateSyntaxError
 
+from django.http import HttpResponse
+
+
 register = Library()
 
 TEMPLATE_ERRORS = 'bootstrap/_non_field_errors.html'
@@ -29,6 +32,8 @@ def render_field(bound_field, show_label, template):
         input_type = 'textarea'
     elif isinstance(widget, forms.CheckboxInput):
         input_type = 'checkbox'
+    elif isinstance(widget, forms.ImageField):
+        input_type = "radio"
     elif issubclass(type(widget), forms.MultiWidget):
         input_type = 'multi_widget'
     else:
