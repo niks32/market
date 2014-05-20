@@ -28,8 +28,8 @@
                 <form action="." method="post">
                     {% csrf_token %}
                     <fieldset>
-                        <legend>Address</legend>
-                        {{ company_book_form|as_vertical_form }}
+                        <legend>Компания</legend>
+                        {{ company_book_form| as_vertical_form }}
                         {{ company_form|as_vertical_form }}
                     </fieldset>
                     <div class="form-group">

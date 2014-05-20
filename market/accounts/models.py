@@ -4,19 +4,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db                  import models
 from django.utils.safestring    import mark_safe
 
-
 from unidecode import unidecode
-
-
-
-AbstractUser._meta.get_field('email')._unique = True
-AbstractUser._meta.get_field('email')._blank  = False
-
-AbstractUser._meta.get_field('username')._blank = True
-
-class User(AbstractUser):
-     avatar = models.ImageField(u'avatar', upload_to='accounts/avatar/%Y/%m/', blank=True, max_length=1000)
-
 
 
 class CompanyBookManager(models.Manager):
@@ -65,3 +53,23 @@ class Company(models.Model):
 
     def __repr__(self):
         return self.phone
+
+
+
+
+AbstractUser._meta.get_field('email')._unique   = True
+AbstractUser._meta.get_field('email')._blank    = False
+AbstractUser._meta.get_field('username')._blank = True
+
+class User(AbstractUser):
+     avatar = models.ImageField(u'avatar', upload_to='accounts/avatar/%Y/%m/', blank=True, max_length=1000)
+     default_company = models.ForeignKey(CompanyBook, related_name='+', null=True, blank=True, db_column="default_company",
+        on_delete=models.SET_NULL)
+
+     def __str__(self):
+         return self.get_username()
+
+     def get_username(self):
+         return self.first_name
+
+

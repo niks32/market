@@ -5,7 +5,7 @@ from django.utils                   import timezone
 from django.contrib.auth            import get_user_model, REDIRECT_FIELD_NAME
 from django.contrib.auth            import (logout as auth_logout, login as auth_login)
 from django.contrib.auth.views      import password_change
-from django.shortcuts               import redirect, resolve_url
+from django.shortcuts               import redirect, resolve_url, get_object_or_404
 from django.template.response       import TemplateResponse
 #from django.utils.http             import is_safe_url
 from django.contrib.auth.forms      import AuthenticationForm
@@ -13,6 +13,7 @@ from django.contrib.sites.models    import get_current_site
 from django.contrib.auth.decorators import login_required
 
 from . import forms
+from ..accounts.models              import CompanyBook
 
 #decorators
 from django.views.decorators.cache   import never_cache
@@ -27,30 +28,29 @@ now  = timezone.now()
 @csrf_protect
 @never_cache
 def login(request):
-    redirect_to = request.REQUEST.get(REDIRECT_FIELD_NAME, '')
     if request.method == "POST":
         form = forms.LoginForm(request, data=request.POST)
         if form.is_valid():
-            messages.success(request, "Мы рады приветствовать Вас на нашем сайте")
-            redirect_to = resolve_url(settings.LOGIN_REDIRECT_URL)
-            auth_login(request, form.get_user())
-            return redirect(redirect_to)
+            user = form.get_user()
+            auth_login(request, user)
+            #company_book = get_object_or_404(CompanyBook, user=user)
+            messages.success(request, "Мы рады приветствовать Вас на нашем сайте, %s" % user)
+            return redirect("account:details")
     else:
-        form = forms.LoginForm(request,)
+        form = forms.LoginForm(request)
+
     current_site = get_current_site(request)
     context = {
         'form': form,
-        'redirect_field_name': redirect_to,
         'site': current_site,
         'site_name': current_site.name,
     }
     return TemplateResponse(request, template='registration/login.html', context=context)
-    #return django_login_view(request,  authentication_form=forms.LoginForm)
 
 def logout(request):
     auth_logout(request)
     messages.info(request, 'Вы вышли')
-    return redirect(settings.LOGIN_REDIRECT_URL)
+    return redirect("account:details")
 
 def register(request):
     if request.method =='POST':
@@ -58,8 +58,8 @@ def register(request):
         if form.is_valid():
             email    = form.cleaned_data['email']
             password = form.cleaned_data['password1']
-            user = User.objects.create_user( email,
-                                             email,
+            user = User.objects.create_user( email.lower(),
+                                             email.lower(),
                                              password)
             #ToDo: организовать активацию
             #user.is_active  = False
@@ -67,10 +67,11 @@ def register(request):
             user.last_name  = form.cleaned_data['last_name']
             user.save()
             messages.info(request,"Регистрация прошла успешно: Email:"+email+" Пароль: "+password)
-            return redirect(settings.LOGIN_REDIRECT_URL)
+            return redirect("account:details")
     else:
         form = forms.RegistrationForm()
     return TemplateResponse(request, 'registration/new_user.html', {'form':form })
+
 
 @login_required( None , None, "/profile/login" )
 def change_password(request):
@@ -83,7 +84,7 @@ def change_password(request):
 
 def request_email_change(request):
     msg = "Данный сервис в данный момент находится в разработке."
-    messages.warning(request, msg)
+    messages.info(request, msg)
     form = forms.RequestEmailConfirmationForm()
 
     #temporary
