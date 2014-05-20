@@ -55,8 +55,6 @@ class Company(models.Model):
         return self.phone
 
 
-
-
 AbstractUser._meta.get_field('email')._unique   = True
 AbstractUser._meta.get_field('email')._blank    = False
 AbstractUser._meta.get_field('username')._blank = True

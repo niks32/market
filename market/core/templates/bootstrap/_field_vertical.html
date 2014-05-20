@@ -7,6 +7,7 @@
     <label class="control-label" for="id_{{ bound_field.html_name }}">{{ bound_field.label }}</label>
     {% endif %}
     <div>
+        {{ input_type }}
         {% if input_type == "input" or input_type == "textarea" or input_type == "select" %}
             {% render_widget bound_field class="form-control" %}
         {% endif %}

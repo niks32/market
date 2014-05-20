@@ -11,12 +11,34 @@
 
 {% block content %}
     <h2>Профиль</h2>
+
+
+
+
+
+    <div class="row">
+    <div class="col-sm-7">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <form method="post">
+                    {% csrf_token %}
+                     {{ user_form | as_vertical_form }}
+                    <div class="form-group">
+                        <button class="btn btn-primary">
+                            Изменить
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    </div>
+
     <p>
-
-        {{ user_form | as_vertical_form }}
-
-        <a href="{% url "registration:change_password" %}" class="btn btn-default">Изменить пароль</a>
+    <div class="panel panel-body">
+        <a href="{% url "registration:change_password" %}" class="btn btn-default">Изменить пароль</a>&nbsp;
         <a href="{% url "registration:request_email_change" %}" class="btn btn-default">Изменить Email</a>
+    </div>
     </p>
     <h3>Компании</h3>
     <table class="table table-striped">
