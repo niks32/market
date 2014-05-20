@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load as_vertical_form from bootstrap %}
+{% block title %}Login — {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="row" xmlns="http://www.w3.org/1999/html">
+    <div class="col-sm-6">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                {% if not user.is_authenticated %}
+                <form method="post" action="{% url 'registration:register' %}">
+                    {% csrf_token %}
+                    <fieldset>
+                        <legend>Регистрация</legend>
+                         {{ form|as_vertical_form }}
+                        <hr>
+                    </fieldset>
+                    <div class="form-group">
+                        <button class="btn btn-primary">
+                            Регистрация
+                        </button>
+                    </div>
+                </form>
+                {% else %}
+                    Вы должны выйти, перед регистрацией нового пользователя
+                {%  endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

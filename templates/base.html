@@ -1,0 +1,145 @@
+{% load webdesign %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{%  block title  %}Компания{%  endblock %} </title>
+    <!-- meta information -->
+    {% block meta %}
+    <meta charset="utf-8">
+    <meta name="description" content="{% block meta_description %}{% endblock %}">
+    <meta name="author" content="Frozzy">
+    {% endblock meta %}
+
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/bootstrap.min.css">
+
+    {% if debug %}
+        <link rel="stylesheet/less" type="text/css" href="{{ STATIC_URL }}less/style.less">
+        <script type="text/javascript" src="{{ STATIC_URL }}js/lib/less.js"></script>
+    {% else %}
+        <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style.css">
+    {% endif %}
+
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/zocial.css">
+    {% block stylesheet %}{% endblock stylesheet %}
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+    <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+</head>
+<body itemscope itemtype="http://schema.org/WebPage">
+     {% block header %}
+            <header class="navbar navbar-default navbar-inverse  navbar-static-top" role="navigation">
+                <nav class="container">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="/">Компания</a>
+                    </div>
+                    <div class="collapse navbar-collapse navbar-ex1-collapse">
+                        <ul class="nav navbar-nav">
+                            <li>
+                            </li>
+                            <li class="">
+                                <a href="{% url 'home:work' %}">Новости</a>
+                            </li>
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Продукция<b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+
+                                </ul>
+                            </li>
+                        </ul>
+                    <div class="col-sm-3 col-md-3">
+                        <form class="navbar-form" role="search" action="/search">
+                            <div class="input-group">
+                                <input type="text" class="form-control" name="q">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="dropdown">
+                                <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                                    <i class="glyphicon glyphicon-shopping-cart"></i>&nbsp;Корзина</span><b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">Отобразить корзину</a></li>
+                                </ul>
+                            </li>
+                            {% if user.is_authenticated %}
+                            <li class="dropdown">
+                                <a data-toggle="dropdown" class="dropdown-toggle" href="."><i class="glyphicon glyphicon-user"></i> {{ user.email }} <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{% url "account:details" %}">Мой профиль</a></li>
+                                    <li><a href="">Мои заказы</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="{% url "registration:logout" %}">Выйти</a></li>
+                                  </ul>
+                            </li>
+                            {% else %}
+                            <li>
+                                <a href="{% url "registration:login" %}">Вход</a>
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </nav>
+            </header>
+        {% endblock %}
+
+       {% if messages %}
+        <div class="container">
+            {% for message in messages %}
+            <div class="alert{% if message.tags %} alert-{{ message.tags }}{% endif %}">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                {{ message | safe }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+
+        <div class="container">
+            {% block outerbreadcrumb %}
+            <ul class="breadcrumb" itemprop="breadcrumb">
+                {% block breadcrumb %}
+                <li>
+                    <a href="/">Главная страница</a>
+                </li>
+                {% endblock breadcrumb %}
+            </ul>
+            {% endblock outerbreadcrumb %}
+            {% block outercontent %}
+            <div class="row">
+                <div class="col-sm-12">
+                    {% block content %}
+                       {%  lorem 4 p %}
+                    {% endblock content %}
+                </div>
+            </div>
+            {% endblock outercontent %}
+        </div>
+
+       {% block footer %}
+            <footer>
+                <div class="container">
+                    <p class="pull-right">
+                        &copy; БЗТПА
+                    </p>
+                </div>
+            </footer>
+        {% endblock %}
+
+{% block footer_scripts %}
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="{{ STATIC_URL }}js/lib/bootstrap.min.js"></script>
+{% endblock footer_scripts %}
+
+</body>
+</html>

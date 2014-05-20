@@ -1,0 +1,12 @@
+{% block subject %}"Confirm your email address"{% endblock %}
+
+{% block text %}Hi!
+
+To continue visit the link below.
+
+{{ confirmation_url }}
+
+If you didn't mean to change your email please ignore this message. We apologise for inconvenience.
+
+Sincerely,
+Saleor Team{% endblock %}

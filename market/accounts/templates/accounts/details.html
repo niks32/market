@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %} Мой профиль — {{ block.super }}{% endblock %}
+
+{% block breadcrumb %}
+    {{ block.super }}
+    <li><a href="{% url 'account:details' %}"> Мой профиль</a></li>
+{% endblock breadcrumb %}
+
+{% block content %}
+    <h2>Профиль</h2>
+    <p>
+        <a href="{% url "registration:change_password" %}" class="btn btn-default">Изменить пароль</a>
+        <a href="{% url "registration:request_email_change" %}" class="btn btn-default">Изменить Email</a>
+    </p>
+
+
+    <h3>Компании</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th class="col-sm-2">Алиас</th>
+                <th class="col-sm-7">Адрес</th>
+                <th class="col-sm-2">Основной</th>
+                <th class="col-sm-1"></th>
+                <th class="col-sm-1"></th>
+            </tr>
+        </thead>
+        <tbody>
+           {% for entry in company_book %}
+            <tr>
+                <th class="col-sm-2">
+                    {{ entry }}
+                </th>
+                <td class="col-sm-4">
+                    {{ entry.company }}
+                </td>
+                <td class="col-sm-2">
+                    {% if user.default_shipping_address == entry %}
+                    <span class="label label-default"> "Основной"</span>
+                    {% else %}
+                    <form method="post" action="#" class="form-inline form-horizontal">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-default btn-sm">Сделать основным</button>
+                    </form>
+                    {% endif %}
+                </td>
+                <td class="col-sm-2">
+                    <a href="{% url 'account:company-edit'  pk=entry.pk slug=entry.get_slug %}" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-edit"></i>&nbsp;Редактировать</a>
+                </td>
+                <td class="col-sm-2">
+                    <a href="#" class="btn btn-danger btn-sm"><i class="glyphicon glyphicon-remove"></i>&nbsp;Удалить</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div>
+        <a href="{% url 'account:company-create' %}" class="btn btn-default"><i class="glyphicon glyphicon-plus-sign"></i> Добавить компанию </a>
+    </div>
+
+
+{% endblock content %}
+
