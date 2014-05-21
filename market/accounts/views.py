@@ -11,7 +11,18 @@ from .forms  import CompanyForm, CompanyBookForm, UserForm
 
 @login_required( None, None, "/profile/login" )
 def details(request):
-    ctx = {'company_book': request.user.company_book.all(), 'user_form': UserForm }
+    user = request.user
+    if request.POST:
+        user_form = UserForm(request.POST, request.FILES, instance=user)
+        if user_form.is_valid():
+            user.first_name = user_form.cleaned_data["first_name"]
+            user.last_name  = user_form.cleaned_data["last_name"]
+            user_form.save()
+            return redirect("account:details")
+    else:
+        user_form = UserForm(instance=user)
+
+    ctx = {'company_book': request.user.company_book.all(), 'user_form': user_form }
     return TemplateResponse(request, "accounts/details.html", ctx)
 
 
@@ -46,6 +57,7 @@ def company_create(request):
 
     message = "Компания успешно добавлена"
     return validate_address_and_render(request, company_form, company_book_form, message)
+
 
 @login_required( None, None, "/profile/login" )
 def company_edit(request, pk, slug):

@@ -32,12 +32,14 @@ def render_field(bound_field, show_label, template):
         input_type = 'textarea'
     elif isinstance(widget, forms.CheckboxInput):
         input_type = 'checkbox'
-    elif isinstance(widget, forms.ImageField):
-        input_type = "radio"
+    elif isinstance(widget, forms.ClearableFileInput):
+        input_type = 'file'
     elif issubclass(type(widget), forms.MultiWidget):
         input_type = 'multi_widget'
     else:
         input_type = 'input'
+
+    print(widget)
 
     context = Context({'bound_field': bound_field,
                        'input_type': input_type,

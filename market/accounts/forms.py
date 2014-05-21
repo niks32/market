@@ -2,7 +2,7 @@ from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from setuptools.command import alias
 from .models import User, Company, CompanyBook
 from django  import forms
-
+from any_imagefield.forms   import ImagePreviewField
 
 class AdminUserAddForm(UserCreationForm):
 
@@ -53,4 +53,6 @@ class CompanyBookForm(forms.ModelForm):
 class UserForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ["avatar", "first_name", "last_name"]
+        fields = ["first_name", "last_name", "avatar"]
+
+    avatar = ImagePreviewField(label="Аватар")

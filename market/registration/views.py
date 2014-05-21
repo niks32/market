@@ -65,6 +65,7 @@ def register(request):
             #user.is_active  = False
             user.first_name = form.cleaned_data['first_name']
             user.last_name  = form.cleaned_data['last_name']
+            form.save()
             user.save()
             messages.info(request,"Регистрация прошла успешно: Email:"+email+" Пароль: "+password)
             return redirect("account:details")

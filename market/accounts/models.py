@@ -4,8 +4,8 @@ from django.contrib.auth.models import AbstractUser
 from django.db                  import models
 from django.utils.safestring    import mark_safe
 
-from unidecode import unidecode
-
+from unidecode                  import unidecode
+from any_imagefield.models      import AnyImageField
 
 class CompanyBookManager(models.Manager):
     pass
@@ -60,7 +60,7 @@ AbstractUser._meta.get_field('email')._blank    = False
 AbstractUser._meta.get_field('username')._blank = True
 
 class User(AbstractUser):
-     avatar = models.ImageField(u'avatar', upload_to='accounts/avatar/%Y/%m/', blank=True, max_length=1000)
+     avatar = AnyImageField("avatar", upload_to='accounts/avatar/%Y/%m/', blank=True, max_length=1000)
      default_company = models.ForeignKey(CompanyBook, related_name='+', null=True, blank=True, db_column="default_company",
         on_delete=models.SET_NULL)
 
@@ -69,5 +69,6 @@ class User(AbstractUser):
 
      def get_username(self):
          return self.first_name
+
 
 

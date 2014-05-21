@@ -20,11 +20,11 @@
     <div class="col-sm-7">
         <div class="panel panel-default">
             <div class="panel-body">
-                <form method="post">
+                <form method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                      {{ user_form | as_vertical_form }}
                     <div class="form-group">
-                        <button class="btn btn-primary">
+                        <button type="submit" class="btn btn-primary">
                             Изменить
                         </button>
                     </div>

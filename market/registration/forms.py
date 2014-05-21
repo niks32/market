@@ -54,4 +54,3 @@ class RequestEmailConfirmationForm(forms.Form):
 
     template = 'registration/emails/change_email.txt'
 
-

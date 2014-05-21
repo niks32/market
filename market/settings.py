@@ -64,7 +64,8 @@ INSTALLED_APPS = (
     # External apps
     'south',
     'debug_toolbar',
-    'captcha'
+    'captcha',
+    'any_imagefield',
 )
 
 AUTH_USER_MODEL = 'accounts.User'
@@ -82,6 +83,12 @@ AUTHENTICATION_BACKENDS = (
     'market.registration.backends.EmailPasswordBackend',
     #'market.registration.backends.TrivialBackend',
 )
+
+FILE_UPLOAD_HANDLERS = (
+    "django.core.files.uploadhandler.MemoryFileUploadHandler",
+    "django.core.files.uploadhandler.TemporaryFileUploadHandler",
+)
+
 ROOT_URLCONF = 'market.urls'
 
 WSGI_APPLICATION = 'market.wsgi.application'
