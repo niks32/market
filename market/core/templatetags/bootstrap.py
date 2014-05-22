@@ -39,8 +39,6 @@ def render_field(bound_field, show_label, template):
     else:
         input_type = 'input'
 
-    print(widget)
-
     context = Context({'bound_field': bound_field,
                        'input_type': input_type,
                        'show_label': show_label})

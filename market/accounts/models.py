@@ -1,6 +1,6 @@
 import re
 
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, UserManager
 from django.db                  import models
 from django.utils.safestring    import mark_safe
 
@@ -42,8 +42,9 @@ class CompanyManager(models.Manager):
 class Company(models.Model):
     company_name = models.CharField(name="company_name", max_length=256, blank=False)
     phone        = models.CharField(name="phone", max_length=256, blank=True)
-    inn          = models.IntegerField(name="inn", blank=False)
-    kpp          = models.IntegerField(name="kpp", blank=False)
+    #TODO: min length for inn, kpp
+    inn          = models.CharField(name="inn", max_length=10, blank=False)
+    kpp          = models.CharField(name="kpp", max_length=9, blank=False)
     address      = models.TextField(name="address", max_length=256, blank=True)
 
     objects = CompanyManager()
@@ -59,16 +60,22 @@ AbstractUser._meta.get_field('email')._unique   = True
 AbstractUser._meta.get_field('email')._blank    = False
 AbstractUser._meta.get_field('username')._blank = True
 
+class UserManager(UserManager):
+    pass
+
 class User(AbstractUser):
-     avatar = AnyImageField("avatar", upload_to='accounts/avatar/%Y/%m/', blank=True, max_length=1000)
-     default_company = models.ForeignKey(CompanyBook, related_name='+', null=True, blank=True, db_column="default_company",
-        on_delete=models.SET_NULL)
+    phone  = models.CharField(max_length=20, blank=True)
+    avatar = AnyImageField("avatar", upload_to='accounts/avatar/%Y/%m/', blank=True, max_length=1000)
+    default_company = models.ForeignKey(CompanyBook, related_name='+', null=True, blank=True, db_column="default_company",
+       on_delete=models.SET_NULL)
 
-     def __str__(self):
-         return self.get_username()
+    objects = UserManager()
 
-     def get_username(self):
-         return self.first_name
+    def __str__(self):
+        return self.get_username()
+
+    def get_username(self):
+        return self.first_name
 
 
 

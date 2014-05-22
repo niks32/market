@@ -1,9 +1,9 @@
-import email
 from django                    import forms
 from django.forms              import PasswordInput
 from captcha.fields            import CaptchaField
 from django.contrib.auth       import get_user_model
 from django.contrib.auth.forms import AuthenticationForm
+from ..accounts.models         import User as User_model
 
 User = get_user_model()
 
@@ -44,9 +44,21 @@ class RegistrationForm(forms.Form):
 
     first_name = forms.CharField(label="Имя", required=False)
     last_name  = forms.CharField(label="Фамилия", required=False)
+    phone      = forms.CharField(label="Телефонный номер", required=False)
 
     captcha  = CaptchaField(label="Введите код")
 
+    #проверка уникальности
+    def clean_email(self):
+        data = self.cleaned_data['email']
+        try:
+            user = User_model.objects.get(email=data)
+        except:
+            user = None
+
+        if user:
+            raise forms.ValidationError("Пользователь с таким email уже существует")
+        return data
 
 class RequestEmailConfirmationForm(forms.Form):
     #Поля

@@ -1,4 +1,5 @@
 {% load webdesign %}
+{% load categories_list from category %}
 
 <!DOCTYPE html>
 <html>
@@ -11,7 +12,11 @@
     <meta name="author" content="Frozzy">
     {% endblock meta %}
 
-    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/bootstrap.min.css">
+    {% if debug %}
+        <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/bootstrap.css">
+    {% else %}
+        <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/bootstrap.min.css">
+    {% endif %}
 
     {% if debug %}
         <link rel="stylesheet/less" type="text/css" href="{{ STATIC_URL }}less/style.less">
@@ -29,8 +34,10 @@
 </head>
 <body itemscope itemtype="http://schema.org/WebPage">
      {% block header %}
-            <header class="navbar navbar-default navbar-inverse  navbar-static-top" role="navigation">
+            <header class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 10px">
+            <a class="logo"><img src="{{ STATIC_URL }}img/top.jpg" class="img-responsive"></a>
                 <nav class="container">
+                <div class="row">
                     <div class="navbar-header">
                         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
                             <span class="sr-only">Toggle navigation</span>
@@ -40,34 +47,38 @@
                         </button>
                         <a class="navbar-brand" href="/">Компания</a>
                     </div>
-                    <div class="collapse navbar-collapse navbar-ex1-collapse">
+                    <div class="collapse navbar-collapse ">
                         <ul class="nav navbar-nav">
                             <li>
                             </li>
                             <li class="">
-                                <a href="{% url 'home:work' %}">Новости</a>
+                                <a href="{% url 'home:work' %}"><i class=" glyphicon glyphicon-thumbs-up"></i>&nbsp;Контакты</a>
                             </li>
                             <li class="dropdown">
                                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">Продукция<b class="caret"></b></a>
                                 <ul class="dropdown-menu">
-
+                                    {% categories_list %}
                                 </ul>
                             </li>
                         </ul>
-                    <div class="col-sm-3 col-md-3">
-                        <form class="navbar-form" role="search" action="/search">
-                            <div class="input-group">
-                                <input type="text" class="form-control" name="q">
-                                <div class="input-group-btn">
-                                    <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+
+                        <div class="col-sm-3 col-md-3">
+                            <form class="navbar-form  form-inline" role="search" action="/search">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" name="q">
+                                    <div class="input-group-btn">
+                                        <button class="btn btn-success" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                                    </div>
                                 </div>
-                            </div>
-                        </form>
-                    </div>
+                            </form>
+                        </div>
+
+
                         <ul class="nav navbar-nav navbar-right">
                             <li class="dropdown">
-                                <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                                    <i class="glyphicon glyphicon-shopping-cart"></i>&nbsp;Корзина</span><b class="caret"></b></a>
+                                <a data-toggle="dropdown" class="dropdown-toggle" href="#"><i class="glyphicon glyphicon-shopping-cart"></i>
+                                    <!--i class="glyphicon glyphicon-shopping-cart"></i-->
+                                    &nbsp;Корзина</span><b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     <li><a href="#">Отобразить корзину</a></li>
                                 </ul>
@@ -89,11 +100,13 @@
                             {% endif %}
                         </ul>
                     </div>
+                    </div>
                 </nav>
             </header>
-        {% endblock %}
+     {% endblock %}
 
-       {% if messages %}
+     {% if messages %}
+     <!-- сообщения -->
         <div class="container">
             {% for message in messages %}
             <div class="alert{% if message.tags %} alert-{{ message.tags }}{% endif %}">
@@ -102,44 +115,150 @@
             </div>
             {% endfor %}
         </div>
-        {% endif %}
+     {% endif %}
 
-
-        <div class="container">
-            {% block outerbreadcrumb %}
-            <ul class="breadcrumb" itemprop="breadcrumb">
-                {% block breadcrumb %}
+     <!-- хлеб -->
+     <div class="container">
+     {% block outerbreadcrumb %}
+         <ul class="breadcrumb" itemprop="breadcrumb">
+            {% block breadcrumb %}
                 <li>
                     <a href="/">Главная страница</a>
                 </li>
-                {% endblock breadcrumb %}
-            </ul>
-            {% endblock outerbreadcrumb %}
-            {% block outercontent %}
-            <div class="row">
-                <div class="col-sm-12">
-                    {% block content %}
-                       {%  lorem 4 p %}
-                    {% endblock content %}
+            {% endblock breadcrumb %}
+         </ul>
+     {% endblock outerbreadcrumb %}
+     </div>
+
+     <div class="">
+        <div class="col-sm-2">
+            <!-- menu -->
+            <div class="panel-group" id="accordion">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"><span class="glyphicon text-black glyphicon-folder-close"></span>&nbsp;БЗТпА</a>
+                        </h4>
+                    </div>
+                    <div id="collapseOne" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                            <table class="table">
+                                <tbody><tr>
+                                    <td>
+                                        <a href="#"><span class="glyphicon glyphicon-pencil text-black"></span> Новости</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <a href="#"><span class="glyphicon glyphicon-flash text-black"></span> Статьи</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <a href="#"><span class="glyphicon glyphicon-file text-black"></span> Продукция</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <a href="#"><span class="glyphicon glyphicon-comment text-black"></span> Отзывы</a> <span class="badge">42</span>
+                                    </td>
+                                </tr>
+                            </tbody></table>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree"><span class="glyphicon glyphicon-user text-black"></span>&nbsp;Профиль</a>
+                        </h4>
+                    </div>
+                    <div id="collapseThree" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <table class="table">
+                                <tbody><tr>
+                                    <td>
+                                        <a href="#"><span class="glyphicon glyphicon-list-alt"></span> Профиль</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <a href="#">Компании</a> <span class="label label-info">9</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <a href="#" class="text-danger"><span class="glyphicon glyphicon-log-out"></span>&nbsp;Выйти</a>
+                                    </td>
+                                </tr>
+                            </tbody></table>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseFour">
+							<span class="glyphicon glyphicon-file text-black"></span>&nbsp;Отчеты</a>
+                        </h4>
+                    </div>
+                    <div id="collapseFour" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <table class="table">
+                                <tbody><tr>
+                                    <td>
+                                        <a href="#"><span class="glyphicon glyphicon-usd"></span> Sales</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <a href="#"><span class="glyphicon glyphicon-user"></span> Customers</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <a href="#"><span class="glyphicon glyphicon-tasks"></span> Products</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <a href="#"><span class="glyphicon glyphicon-shopping-cart"></span> Shopping Cart</a>
+                                    </td>
+                                </tr>
+                            </tbody></table>
+                        </div>
+                    </div>
                 </div>
             </div>
-            {% endblock outercontent %}
         </div>
-
-       {% block footer %}
-            <footer>
-                <div class="container">
-                    <p class="pull-right">
-                        &copy; БЗТПА
-                    </p>
+        <div class="">
+            <div class="container">
+                {% block outercontent %}
+                <div class="row">
+                    <div class="col-sm-10">
+                        {% block content %}
+                           {%  lorem 20 p %}
+                        {% endblock content %}
+                    </div>
                 </div>
-            </footer>
-        {% endblock %}
+                {% endblock outercontent %}
+            </div>
+        </div>
+    </div>
+
+    {% block footer %}
+         <footer>
+             <div class="container" style="padding-top: 20px">
+                 <p class="pull-right">
+                     &copy; БЗТПА
+                 </p>
+             </div>
+         </footer>
+    {% endblock %}
 
 {% block footer_scripts %}
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script src="{{ STATIC_URL }}js/lib/bootstrap.min.js"></script>
 {% endblock footer_scripts %}
-
 </body>
 </html>

@@ -5,6 +5,7 @@ from django.contrib     import admin
 from .core.urls         import urlpatterns as core_urls
 from .registration.urls import urlpatterns as reg_urls
 from .accounts.urls     import urlpatterns as account_urls
+from .product.urls      import urlpatterns as product_urls
 
 admin.autodiscover()
 
@@ -13,7 +14,9 @@ urlpatterns = patterns('',
     url(r'^admin/',   include(admin.site.urls)),
     url(r'^account/', include(account_urls, namespace='account')),
     url(r'^profile/', include(reg_urls,     namespace='registration')),
+    url(r'^products/',include(product_urls, namespace='product')),
     url(r'^captcha/', include('captcha.urls')),
+
 )
 
 if settings.DEBUG:

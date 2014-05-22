@@ -36,8 +36,8 @@ class CompanyForm(forms.ModelForm):
 
     company_name = forms.CharField(label="Наименование")
     phone        = forms.CharField(label="Телефон")
-    inn          = forms.IntegerField(label="ИНН")
-    kpp          = forms.IntegerField(label="КПП")
+    inn          = forms.CharField(label="ИНН")
+    kpp          = forms.CharField(label="КПП")
     address      = forms.CharField(label="Адрес", widget=forms.Textarea)
 
 
@@ -53,6 +53,7 @@ class CompanyBookForm(forms.ModelForm):
 class UserForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ["first_name", "last_name", "avatar"]
+        fields = ["first_name", "last_name", "phone", "avatar"]
 
     avatar = ImagePreviewField(label="Аватар")
+    phone  = forms.CharField(label="Телефонный номер", required=False)

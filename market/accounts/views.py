@@ -15,12 +15,12 @@ def details(request):
     if request.POST:
         user_form = UserForm(request.POST, request.FILES, instance=user)
         if user_form.is_valid():
-            user.first_name = user_form.cleaned_data["first_name"]
-            user.last_name  = user_form.cleaned_data["last_name"]
             user_form.save()
             return redirect("account:details")
     else:
         user_form = UserForm(instance=user)
+    if request.user.company_book.count() == 0:
+        messages.info(request, "Добавьте реквизиты компании для выписывания счетов")
 
     ctx = {'company_book': request.user.company_book.all(), 'user_form': user_form }
     return TemplateResponse(request, "accounts/details.html", ctx)
@@ -61,14 +61,19 @@ def company_create(request):
 
 @login_required( None, None, "/profile/login" )
 def company_edit(request, pk, slug):
-        company_book        = get_object_or_404(CompanyBook, pk=pk, user=request.user)
-        company             = company_book.company
+    company_book        = get_object_or_404(CompanyBook, pk=pk, user=request.user)
+    company             = company_book.company
+    if not company_book.get_slug() == slug and request.GET:
+        return HttpResponseRedirect(company_book.get_absolute_url())
+    if request.POST:
+        company_form        = CompanyForm(request.POST, instance=company)
+        company_book_form   = CompanyBookForm(request.POST, instance=company_book)
+    else:
         company_form        = CompanyForm(instance=company)
         company_book_form   = CompanyBookForm(instance=company_book)
+    msg = 'Обновлено:'
 
-        msg = 'fuck it'
-
-        return validate_address_and_render(request, company_form, company_book_form, msg)
+    return validate_address_and_render(request, company_form, company_book_form, msg)
 
 
 @login_required( None, None, "/profile/login" )

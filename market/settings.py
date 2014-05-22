@@ -60,12 +60,14 @@ INSTALLED_APPS = (
     'market.core',
     'market.registration',
     'market.accounts',
+    'market.product',
 
     # External apps
     'south',
     'debug_toolbar',
     'captcha',
     'any_imagefield',
+    'mptt',
 )
 
 AUTH_USER_MODEL = 'accounts.User'
