@@ -1,0 +1,27 @@
+
+img.bimg{
+	/*height :80px;
+	width  :80px;
+	margin: 15px 0;
+    -webkit-transition: all 1s ease;
+    -moz-transition: all 1s ease;
+    -o-transition: all 1s ease;*/
+    margin: -5px;
+    padding: 10px;
+    border: 5px solid #eee;
+    -webkit-box-shadow: 4px 4px 4px rgba(0,0,0,0.2);
+    -moz-box-shadow: 4px 4px 4px rgba(0,0,0,0.2);
+    box-shadow: 4px 4px 4px rgba(0,0,0,0.2);
+    -webkit-transition: all 0.5s ease-out;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+
+}
+
+img.bimg:hover {
+  opacity: 1;
+  -webkit-box-shadow: 0px 0px 20px rgba(100,100,100,0.8);
+  -moz-box-shadow: 0px 0px 20px rgba(100,100,100,0.8);
+  box-shadow: 0px 0px 20px rgba(100,100,100,0.8);
+
+}

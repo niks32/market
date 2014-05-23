@@ -68,6 +68,7 @@ INSTALLED_APPS = (
     'captcha',
     'any_imagefield',
     'mptt',
+    'django_images',
 )
 
 AUTH_USER_MODEL = 'accounts.User'

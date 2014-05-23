@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %} Продукция — {{ block.super }}{% endblock %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/own.css">
+    <style>
+    .inner {
+    width: 50%;
+    margin: 0 auto;
+}
+    </style>
+{% endblock stylesheet %}
+
+{% block breadcrumb %}
+    {{ block.super }}
+    <li><a href="#"> Продукция</a></li>
+{% endblock breadcrumb %}
+{% block content %}
+
+            <div class="row">
+            {% for obj in category %}
+                <div class="col-sm-3" style="margin-bottom: 30px;">
+                <p style="text-align: center;">
+                            <a href="{{ obj.get_absolute_url }}">{{ obj.name }}</a>
+                        </p>
+                    <div class="inner">
+                        <a href="{{ obj.get_absolute_url }}">
+                            <img class="bimg" src="{{ MEDIA_URL }}{{obj.picture}}" alt="{{ obj.description }}">
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+            </div>
+
+{% endblock content %}
+

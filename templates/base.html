@@ -26,7 +26,11 @@
     {% endif %}
 
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/zocial.css">
-    {% block stylesheet %}{% endblock stylesheet %}
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/main.css">
+
+
+    {% block stylesheet %}
+    {% endblock stylesheet %}
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
     <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -49,21 +53,22 @@
                     </div>
                     <div class="collapse navbar-collapse ">
                         <ul class="nav navbar-nav">
-                            <li>
-                            </li>
                             <li class="">
                                 <a href="{% url 'home:work' %}"><i class=" glyphicon glyphicon-thumbs-up"></i>&nbsp;Контакты</a>
                             </li>
                             <li class="dropdown">
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Продукция<b class="caret"></b></a>
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="callbtn">Продукция<b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     {% categories_list %}
                                 </ul>
                             </li>
+                            <li>
+                                <a href="javascript:PopUpShow()"><i class=" glyphicon glyphicon-phone"></i>&nbsp;Заказать звонок</a>
+                            </li>
                         </ul>
 
                         <div class="col-sm-3 col-md-3">
-                            <form class="navbar-form  form-inline" role="search" action="/search">
+                            <form class=" navbar-form form-inline" role="search" action="/search">
                                 <div class="input-group">
                                     <input type="text" class="form-control" name="q">
                                     <div class="input-group-btn">
@@ -155,7 +160,7 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        <a href="#"><span class="glyphicon glyphicon-file text-black"></span> Продукция</a>
+                                        <a href="{% url "product:category" %}"><span class="glyphicon glyphicon-file text-black"></span> Продукция</a>
                                     </td>
                                 </tr>
                                 <tr>
@@ -167,6 +172,7 @@
                         </div>
                     </div>
                 </div>
+                {% if user.is_authenticated %}
                 <div class="panel panel-info">
                     <div class="panel-heading">
                         <h4 class="panel-title">
@@ -178,17 +184,19 @@
                             <table class="table">
                                 <tbody><tr>
                                     <td>
-                                        <a href="#"><span class="glyphicon glyphicon-list-alt"></span> Профиль</a>
+                                        <a href="{% url "account:details" %}"><span class="glyphicon glyphicon-list-alt"></span> Профиль</a>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <a href="#">Компании</a> <span class="label label-info">9</span>
+                                        <a href="{% url "account:details" %}#company">
+                                            <span class="glyphicon glyphicon-book"></span>
+                                            Компании</a> <span class="label label-info"> {{ user.company_book.count }}</span>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <a href="#" class="text-danger"><span class="glyphicon glyphicon-log-out"></span>&nbsp;Выйти</a>
+                                        <a href="{% url "registration:logout" %}" class="text-danger"><span class="glyphicon glyphicon-log-out"></span>&nbsp;Выйти</a>
                                     </td>
                                 </tr>
                             </tbody></table>
@@ -229,6 +237,7 @@
                         </div>
                     </div>
                 </div>
+                {% endif %}
             </div>
         </div>
         <div class="">

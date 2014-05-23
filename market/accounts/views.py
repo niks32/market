@@ -21,7 +21,6 @@ def details(request):
         user_form = UserForm(instance=user)
     if request.user.company_book.count() == 0:
         messages.info(request, "Добавьте реквизиты компании для выписывания счетов")
-
     ctx = {'company_book': request.user.company_book.all(), 'user_form': user_form }
     return TemplateResponse(request, "accounts/details.html", ctx)
 

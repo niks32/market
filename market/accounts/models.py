@@ -24,6 +24,9 @@ class CompanyBook(models.Model):
     def __str__(self):
         return self.alias
 
+    def count(self):
+        return self.objects.all().count()
+
     @models.permalink
     def get_absolute_url(self):
         return ('account:company-edit',

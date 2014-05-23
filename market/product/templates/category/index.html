@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load at_size from images %}
+
+
+
+{% block title %}{{ category }} — {{ block.super }}{% endblock %}
+
+{% block breadcrumb %}
+    {{ block.super }}
+    <li><a href="{{ category.get_absolute_url }}">{{ category }}</a></li>
+{% endblock breadcrumb %}
+
+{% block content %}
+    <h2>{{ category }}</h2>
+    {% for product in products %}
+        <div class="row">
+                <div class="col-sm-6">
+                            <h3><a href="{{ product.get_absolute_url }}">{{ product }}</a>
+                    {% if product.images.exists %}
+                        <a href="{{ product.get_absolute_url }}">
+                            <img class="img-responsive" src="{{ product.images.first|at_size:"normal" }}" alt="">
+                        </a>
+                    {% endif %}
+                </div>
+        </div>
+    {% endfor %}
+{% endblock content %}
