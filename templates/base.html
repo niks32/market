@@ -1,5 +1,7 @@
 {% load webdesign %}
 {% load categories_list from category %}
+{% load as_vertical_form from bootstrap %}
+
 
 <!DOCTYPE html>
 <html>
@@ -28,6 +30,12 @@
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/zocial.css">
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/main.css">
 
+<script src="http://code.jquery.com/jquery-2.0.2.min.js"></script>
+<script src="{{ STATIC_URL }}js/core.js"></script>
+<script>
+
+</script>
+
 
     {% block stylesheet %}
     {% endblock stylesheet %}
@@ -37,8 +45,28 @@
     <![endif]-->
 </head>
 <body itemscope itemtype="http://schema.org/WebPage">
-     {% block header %}
+       {% block header %}
             <header class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 10px">
+            <!-- Форма заказа звонка -->
+                <div id="popup1" class="b-popup">
+                    <div class="b-popup-content">
+                        <div class="panel panel-default">
+                            <div class="panel-heading" style="font-size: 18pt">
+                               Заказать звонок
+                                <a id="closeGetCall"><img width="35" height="35" src="{{ STATIC_URL }}img/modal_close.png"/></a>
+                            </div>
+                            <div class="panel-body">
+                                {{ form | as_vertical_form }}
+                                                  <button class="btn btn-primary">
+                            Вход
+                        </button>core
+                            </div>
+                         </div>
+
+                    </div>
+                </div>
+
+
             <a class="logo"><img src="{{ STATIC_URL }}img/top.jpg" class="img-responsive"></a>
                 <nav class="container">
                 <div class="row">
@@ -63,7 +91,7 @@
                                 </ul>
                             </li>
                             <li>
-                                <a href="javascript:PopUpShow()"><i class=" glyphicon glyphicon-phone"></i>&nbsp;Заказать звонок</a>
+                                <a id="openGetCall"><i class=" glyphicon glyphicon-phone"></i>&nbsp;Заказать звонок</a>
                             </li>
                         </ul>
 

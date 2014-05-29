@@ -34,6 +34,7 @@ class Category(MPTTModel):
 class Product(models.Model, ItemRange):
     name     = models.CharField('name', max_length=128)
     category = models.ForeignKey('Category', related_name='products')
+
     objects  = InheritanceManager()
 
     def __str__(self):
