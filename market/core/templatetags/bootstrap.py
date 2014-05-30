@@ -7,7 +7,6 @@ from django.template.loader  import render_to_string
 from django.utils.safestring import mark_safe
 from django.template.base    import TemplateSyntaxError
 
-from django.http import HttpResponse
 
 
 register = Library()

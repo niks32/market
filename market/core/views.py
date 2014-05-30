@@ -1,11 +1,12 @@
-from django.shortcuts         import render
-from django.template.response import TemplateResponse
-
-from .forms                   import GetPhoneForm
+from django.contrib           import messages
+from django.shortcuts         import render, redirect
 
 def home(request):
-    form = GetPhoneForm()
-    return TemplateResponse(request, 'base.html', {'form':form })
+    return render(request, 'base.html')
 
 def work(request):
     return render(request, 'working.html')
+
+def getphonecall(request):
+    messages.info(request, "FUCK YEAH")
+    return redirect("home:homepage")

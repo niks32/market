@@ -1,6 +1,7 @@
 {% load webdesign %}
 {% load categories_list from category %}
 {% load as_vertical_form from bootstrap %}
+{% load own_forms %}
 
 
 <!DOCTYPE html>
@@ -55,14 +56,8 @@
                                Заказать звонок
                                 <a id="closeGetCall"><img width="35" height="35" src="{{ STATIC_URL }}img/modal_close.png"/></a>
                             </div>
-                            <div class="panel-body">
-                                {{ form | as_vertical_form }}
-                                                  <button class="btn btn-primary">
-                            Вход
-                        </button>core
-                            </div>
+                            {% getcall_form %}
                          </div>
-
                     </div>
                 </div>
 
@@ -91,7 +86,7 @@
                                 </ul>
                             </li>
                             <li>
-                                <a id="openGetCall"><i class=" glyphicon glyphicon-phone"></i>&nbsp;Заказать звонок</a>
+                                <a id="openGetCall"><i class="glyphicon glyphicon-phone"></i>&nbsp;Заказать звонок</a>
                             </li>
                         </ul>
 
@@ -167,7 +162,7 @@
         <div class="col-sm-2">
             <!-- menu -->
             <div class="panel-group" id="accordion">
-                <div class="panel panel-info">
+                <div class="panel panel-menu">
                     <div class="panel-heading">
                         <h4 class="panel-title">
                             <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"><span class="glyphicon text-black glyphicon-folder-close"></span>&nbsp;БЗТпА</a>
@@ -201,7 +196,7 @@
                     </div>
                 </div>
                 {% if user.is_authenticated %}
-                <div class="panel panel-info">
+                <div class="panel panel-menu">
                     <div class="panel-heading">
                         <h4 class="panel-title">
                             <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree"><span class="glyphicon glyphicon-user text-black"></span>&nbsp;Профиль</a>
@@ -231,7 +226,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="panel panel-info">
+                <div class="panel panel-menu">
                     <div class="panel-heading">
                         <h4 class="panel-title">
                             <a data-toggle="collapse" data-parent="#accordion" href="#collapseFour">
