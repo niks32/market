@@ -76,11 +76,11 @@ def register(request):
 
 @login_required( None , None, "/profile/login" )
 def change_password(request):
-    msg = 'Информация: используйте сложный пароль. <a href="http://8pw.ru/</b>" target="_blank">Генератор паролей</a>'
+    msg = 'Информация: используйте сложный пароль. <a href="http://8pw.ru/" target="_blank"><b>Генератор паролей</b></a>'
     messages.info(request, msg, fail_silently=True)
     return password_change(request,
                            template_name="registration/change_password.html",
-                           post_change_redirect=reverse('profile:details'))
+                           post_change_redirect=reverse('account:details'))
 
 
 def request_email_change(request):

@@ -55,5 +55,5 @@ class UserForm(forms.ModelForm):
         model = User
         fields = ["first_name", "last_name", "phone", "avatar"]
 
-    avatar = ImagePreviewField(label="Аватар")
+    avatar = ImagePreviewField(label="Аватар", required=False)
     phone  = forms.CharField(label="Телефонный номер", required=False)

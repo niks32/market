@@ -3,12 +3,7 @@
 <form method="post" action="{% url "home:getphonecall" %}">
     {% csrf_token %}
     <div class="panel-body">
-
-
-
-            {{ get_call_form | as_vertical_form }}
-
-    Вы можете оставить свои комментарии или задать вопросы, на которые мы постараемся ответить:
-        <button class="btn btn-primary" style="width: 350px">Заказать звонок</button>
+        {{ get_call_form | as_vertical_form }}
+        <button class="btn btn-primary" style="width: 350px; height: 40px">Заказать звонок</button>
     </div>
 </form>

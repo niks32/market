@@ -68,7 +68,7 @@ class UserManager(UserManager):
 
 class User(AbstractUser):
     phone  = models.CharField(max_length=20, blank=True)
-    avatar = AnyImageField("avatar", upload_to='accounts/avatar/%Y/%m/', blank=True, max_length=1000)
+    avatar = AnyImageField("avatar", upload_to='accounts/avatar/%Y/%m/', blank=True,  max_length=1000)
     default_company = models.ForeignKey(CompanyBook, related_name='+', null=True, blank=True, db_column="default_company",
        on_delete=models.SET_NULL)
 
