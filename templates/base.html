@@ -2,6 +2,7 @@
 {% load categories_list from category %}
 {% load as_vertical_form from bootstrap %}
 {% load own_forms %}
+{% load phonecall %}
 
 
 <!DOCTYPE html>
@@ -238,22 +239,48 @@
                             <table class="table">
                                 <tbody><tr>
                                     <td>
-                                        <a href="#"><span class="glyphicon glyphicon-usd"></span> Sales</a>
+                                        <a href="#"><span class="glyphicon glyphicon-usd"></span>Выписанные счета</a>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <a href="#"><span class="glyphicon glyphicon-user"></span> Customers</a>
+                                        <a href="#"><span class="glyphicon glyphicon-user"></span>Отчет</a>
+                                    </td>
+                                </tr>
+                            </tbody></table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-menu">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseFive">
+							<span class="glyphicon glyphicon-file text-black"></span>&nbsp;Менеджер</a>
+                        </h4>
+                    </div>
+                <div id="collapseFive" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <table class="table">
+                                <tbody><tr>
+                                    <td>
+                                        <a href="{% url "home:phonecalls" %}"><span class="glyphicon glyphicon-earphone text-black"></span>&nbsp;Звонки</a>
+                                        {% phonecall_count %}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <a href="#"><span class="glyphicon glyphicon-tasks"></span> Products</a>
+                                        <a href="#"><span class="glyphicon glyphicon-user text-black"></span>&nbsp;Отчет 2</a>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <a href="#"><span class="glyphicon glyphicon-shopping-cart"></span> Shopping Cart</a>
+                                        <a href="#"><span class="glyphicon glyphicon-tasks text-black"></span>&nbsp;Отчет 3</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <a href="#"><span class="glyphicon glyphicon-shopping-cart text-black"></span>&nbsp;Корзина</a>
                                     </td>
                                 </tr>
                             </tbody></table>

@@ -1,8 +1,5 @@
 from django.template        import Library
 from django.template.loader import render_to_string
-from django.shortcuts       import redirect
-
-from django.contrib         import messages
 
 
 register = Library()

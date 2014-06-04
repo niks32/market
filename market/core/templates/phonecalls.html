@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load as_vertical_form from bootstrap %}
+
+{% block title %}Заказы звонков{% endblock %}
+
+
+{% block content %}
+<div class="row">
+            <div class="panel panel-default">
+                <div class="panel-heading">Заказы звонков</div>
+                    <div class="panel-body">
+                        {% if calls.count > 0 %}
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Имя</th>
+                                        <th>Телефон</th>
+                                        <th>Дата</th>
+                                        <th>Вопрос</th>
+                                        <th>Менеджер</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for item in calls %}
+                                        <tr>
+                                            <td>{{ item.name }}</td>
+                                            <td>{{ item.phone }}</td>
+                                            <td>{{ item.date }}</td>
+                                            <td>{{ item.get_quest_display }}</td>
+                                            <td><div class="btn btn-success">Взять</div></td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        {% else %}
+                            <p>Здесь будет информация о заказанных звонках</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+</div>
+{% endblock %}
