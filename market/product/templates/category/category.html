@@ -14,10 +14,10 @@
 
 {% block breadcrumb %}
     {{ block.super }}
-    <li><a href="#"> Продукция</a></li>
+    <li><a href="">Продукция</a></li>
 {% endblock breadcrumb %}
-{% block content %}
 
+{% block content %}
             <div class="row">
             {% for obj in category %}
                 <div class="col-sm-3" style="margin-bottom: 30px;">
@@ -26,12 +26,11 @@
                         </p>
                     <div class="inner">
                         <a href="{{ obj.get_absolute_url }}">
-                            <img class="bimg" src="{{ MEDIA_URL }}{{obj.picture}}" alt="{{ obj.description }}">
+                            <img class="bimg" height="115" width="115" src="{{ MEDIA_URL }}{{obj.picture}}" alt="{{ obj.description }}">
                         </a>
                     </div>
                 </div>
             {% endfor %}
             </div>
-
 {% endblock content %}
 

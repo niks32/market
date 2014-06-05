@@ -24,7 +24,7 @@ class Category(MPTTModel):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('product:category', kwargs={'slug': self.slug})
+        return reverse('product:category', kwargs={ 'slug': self.slug })
 
     class Meta:
         app_label = 'product'
