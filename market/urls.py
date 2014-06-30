@@ -6,6 +6,7 @@ from .core.urls         import urlpatterns as core_urls
 from .registration.urls import urlpatterns as reg_urls
 from .accounts.urls     import urlpatterns as account_urls
 from .product.urls      import urlpatterns as product_urls
+from .cart.urls         import urlpatterns as cart_urls
 
 admin.autodiscover()
 
@@ -13,6 +14,7 @@ urlpatterns = patterns('',
     url(r'^',         include(core_urls, namespace='home')),
     url(r'^admin/',   include(admin.site.urls)),
     url(r'^account/', include(account_urls, namespace='account')),
+    url(r'^cart/',    include(cart_urls, namespace='cart')),
     url(r'^profile/', include(reg_urls,     namespace='registration')),
     url(r'^products/',include(product_urls, namespace='product')),
     url(r'^captcha/', include('captcha.urls')),

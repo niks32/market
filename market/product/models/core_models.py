@@ -32,8 +32,11 @@ class Category(MPTTModel):
         verbose_name_plural = u'Категории'
 
 class Product(models.Model, ItemRange):
-    name     = models.CharField('name', max_length=128)
-    category = models.ForeignKey('Category', related_name='products')
+    name     = models.CharField(verbose_name='Наименование', max_length=128)
+    category = models.ForeignKey('Category', verbose_name="Категория", related_name='products')
+
+    desc = models.TextField(verbose_name="Короткое описание", max_length=150, blank=True )
+    desc_verbose = models.TextField(verbose_name="Полное описание", max_length=1000, blank=True)
 
     objects  = InheritanceManager()
 
@@ -58,3 +61,14 @@ class Product(models.Model, ItemRange):
         app_label = 'product'
         verbose_name = 'Продукция'
         verbose_name_plural = 'Продукция'
+
+class ProductImage(models.Model):
+
+    product  = models.ForeignKey('Product', related_name='images', null=True)
+    image = AnyImageField("Изображение", upload_to='products/%Y/%m/', blank=True, null=True,  max_length=1000)
+
+    class Meta:
+        app_label = 'product'
+        verbose_name = "Изображение"
+        verbose_name_plural = "Изображение"
+

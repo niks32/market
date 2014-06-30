@@ -1,11 +1,11 @@
 {% extends "base.html" %}
-{% load at_size from images %}
+
 
 {% block title %}
     {% for item in breed_parent %}
-        {{item.name}} -
+        {{item.name}} —
     {% endfor %}
-    — {{ block.super }}{% endblock %}
+    {{ block.super }}{% endblock %}
 
 {% block stylesheet %}
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/own.css">
@@ -14,11 +14,14 @@
     width: 50%;
     margin: 0 auto;
 }
+
+
     </style>
 {% endblock stylesheet %}
 
 {% block breadcrumb %}
     {{ block.super }}
+    <li><a href="{% url "product:category" %}">Продукция</a></li>
     {% for item in breed_parent %}
         <li><a href="{{ item.get_absolute_url }}">{{item.name}}</a></li>
     {% endfor %}
@@ -43,15 +46,22 @@
     {% if products.count != 0 %}
     {% for product in products %}
         <div class="row">
-            <div class="col-sm-6">
-                <h3><a href="{{ product.get_absolute_url }}">{{ product }}</a>
+            <div class="col-sm-3 " >
                     {% if product.images.exists %}
-                        <a href="{{ product.get_absolute_url }}">
-                            <img class="img-responsive" src="{{ product.images.first|at_size:"normal" }}" alt="">
+                        <a href="">
+                            <img style="margin-top: 20px; height: auto" class="img-responsive" src="{{ MEDIA_URL }}{{ product.images.first.image }}" alt="">
                         </a>
                     {% endif %}
-                </div>
+            </div>
+            <div class="col-sm-6">
+                <h3><a href="{{ product.get_absolute_url }}">{{ product }}</a></h3>
+                {{ product.desc | safe }}
+            </div>
+            <div class="col-sm-3 ">
+                <a style="margin-top: 50px" href="{{ product.get_absolute_url }}" class="btn  btn-info">Подробнее</a>
+            </div>
         </div>
+        <hr>
     {% endfor %}
     {% endif %}
 {% endblock content %}

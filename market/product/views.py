@@ -1,9 +1,10 @@
 from django.shortcuts           import get_object_or_404
 from django.template.response   import TemplateResponse
+from django.http                import HttpResponsePermanentRedirect
 
 
-
-from .models.core_models        import Category, Product
+from .forms                     import get_form_class_for_product
+from .models.core_models        import Category, Product, ProductImage
 
 
 def category(request):
@@ -26,11 +27,21 @@ def category_index(request, slug):
     else:
         subcat.append(cat)
 
-    print("LEN: "+str(len(subcat)))
     ctx = {
         'products': products, 'breed_parent': subcat, 'category': cat.children.all(),
     }
     return TemplateResponse(request, 'category/index.html',  ctx)
 
 def product_details(request, slug, product_id):
-    pass
+    product = get_object_or_404(Product.objects.select_subclasses(), id=product_id)
+    if product.get_slug() != slug:
+        return HttpResponsePermanentRedirect(product.get_absolute_url())
+
+    #for item in product.variants.all():
+    #    print(item.dn)
+
+    form = get_form_class_for_product(product)
+
+    ctx = { 'product': product, 'form': form }
+
+    return TemplateResponse(request, 'product/details.html', ctx)

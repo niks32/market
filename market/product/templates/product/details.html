@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load as_vertical_form from bootstrap %}
+
+{% block title %} Продукция — {{ block.super }}{% endblock %}
+
+
+{% block breadcrumb %}
+    {{ block.super }}
+{% endblock breadcrumb %}
+
+{% block content %}
+            <div class="row">
+                Продукт: {{ product }}<br>
+                Категория: {{ product.category }}<br>
+                Короткое описание: {{ product.desc | safe }}<br>
+                Полное описание: {{ product.desc_verbose | safe }}
+                Изображение: <img style="margin-top: 20px; height: auto" class="img-responsive" src="{{ MEDIA_URL }}{{ product.images.first.image }}" alt="">
+            </div>
+                <hr>
+                {{ form | as_vertical_form }}
+{% endblock content %}
+
