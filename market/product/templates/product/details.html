@@ -10,13 +10,27 @@
 
 {% block content %}
             <div class="row">
-                Продукт: {{ product }}<br>
-                Категория: {{ product.category }}<br>
-                Короткое описание: {{ product.desc | safe }}<br>
-                Полное описание: {{ product.desc_verbose | safe }}
+            <div class="col-sm-6">
                 Изображение: <img style="margin-top: 20px; height: auto" class="img-responsive" src="{{ MEDIA_URL }}{{ product.images.first.image }}" alt="">
             </div>
-                <hr>
-                {{ form | as_vertical_form }}
+            <div class="col-sm-6">
+                <b>Продукт:</b> {{ product }}<br>
+                <b>Категория:</b> {{ product.category }}<br>
+                <b>Короткое описание:</b><br> {{ product.desc | safe }}<br>
+                {{ product.desc_verbose | safe }}
+                {%  block orderform %}
+                <form role="form" class="product-form" method="post" action=".">
+                    {% csrf_token %}
+                    {{ form | as_vertical_form }}
+                    <div class="form-group">
+                    <button class="btn btn-lg btn-block btn-primary">
+                        Добавить в заказ
+                    </button>
+                    </div>
+                </form>
+            </div>
+            {% endblock %}
+            </div>
+
 {% endblock content %}
 

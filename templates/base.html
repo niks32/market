@@ -108,7 +108,7 @@
                                     <!--i class="glyphicon glyphicon-shopping-cart"></i-->
                                     &nbsp;Корзина</span><b class="caret"></b></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="#">Отобразить корзину</a></li>
+                                    <li><a href="{% url "cart:index" %}">Отобразить корзину</a></li>
                                 </ul>
                             </li>
                             {% if user.is_authenticated %}

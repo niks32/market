@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% load as_vertical_form from bootstrap %}
+
+{% block title %}Ваша Корзина — {{ block.super }}{% endblock %}
+
+{% block breadcrumb %}
+    {{ block.super }}
+<li><a href="{% url 'cart:index' %}">Корзина</a></li>
+{% endblock breadcrumb %}
+
+{% block content %}
+{% if cart %}
+<form role="form" action="" method="post">
+    {% csrf_token %}
+    {{ formset.management_form }}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th class="col-sm-4">Продукт</th>
+                <th class="col-sm-2">Количество</th>
+                <th class="col-sm-2">Цена</th>
+                <th class="col-sm-2">Всего</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <td class="col-sm-4"></td>
+                <td class="col-sm-2">
+                    <button class="btn btn-default" type="submit">
+                        Обновить количество
+                    </button>
+                </td>
+                <th class="col-sm-2">Итого:</th>
+                <td class="col-sm-2">{{ cart.get_total }}</td>
+            </tr>
+        </tfoot>
+        <tbody>
+            {% for form in formset %}
+            <tr>
+                <td>
+                    <a href="{{ form.cart_line.product.get_absolute_url }}">{{ form.cart_line.product }}</a>
+                </td>
+                <td>{{ form.quantity|as_vertical_form:False }}</td>
+                <td>{{  form.cart_line.get_price_per_item }}</td>
+                <td>{{  form.cart_line.get_total }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="form-group">
+        <div>
+            <a href="{% url "checkout:index" %}" class="btn btn-primary">Checkout</a>
+        </div>
+    </div>
+</form>
+{% else %}
+<p>
+    Ваша корзина пуста.
+</p>
+{% endif %}
+{% endblock content %}

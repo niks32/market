@@ -9,6 +9,7 @@ def home(request):
     return render(request, 'base.html')
 
 def work(request):
+    '''
     if request.user.is_authenticated():
         print(request.user.first_name)
     else:
@@ -17,6 +18,7 @@ def work(request):
     print(len(user_permissions))
     for p in user_permissions:
         print(p)
+    '''
     return render(request, 'working.html')
 
 def getphonecall(request):

@@ -70,6 +70,7 @@ INSTALLED_APPS = (
     'django.contrib.webdesign',
 
     # Local apps
+    'market.cart',
     'market.core',
     'market.registration',
     'market.accounts',
@@ -92,6 +93,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'market.cart.middleware.CartMiddleware',
 )
 
 AUTHENTICATION_BACKENDS = (

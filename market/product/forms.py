@@ -1,14 +1,22 @@
 from django import forms
 from .models.products import Valve
+from market.cart.forms import AddToCartForm
 
-######
-### admin forms
-######
+import sys
+
+
 class ValveAdminForm(forms.ModelForm):
+    """
+    Admin form
+    """
     class Meta:
         model = Valve
 
+
 class ProductVariantInline(forms.models.BaseInlineFormSet):
+    """
+    Checker not none variant
+    """
     def clean(self):
         count = 0
         for form in self.forms:
@@ -16,33 +24,43 @@ class ProductVariantInline(forms.models.BaseInlineFormSet):
                 count += 1
         if count < 1:
             raise forms.ValidationError('Вы должны добавить хотя бы один вариант.')
-#######
-### users forms
-#######
 
-#class VavleForm(AddToCartForm):
-class ValveForm(forms.Form):
-    comment = forms.CharField(widget=forms.Textarea)
 
+class ValveForm(AddToCartForm):
+    """
+    Форма заказа
+    """
+    dn = forms.ChoiceField(widget=forms.RadioSelect, label='Dn')
 
     def __init__(self, *args, **kwargs):
         super(ValveForm, self).__init__(*args, **kwargs)
-        print(self)
+        print('File: '+__name__)
+        print('Function: '+sys._getframe().f_code.co_name)
+        print('-----------------------------------------')
+        print('Variants:')
 
+        main_choices = []
+        for p in self.product.variants.all():
+            print(p.dn)
+            main_choices.append([p.name, p.dn])
 
+        self.fields['dn'].choices = main_choices
 
-#     size = forms.ChoiceField(choices=,  widget=forms.RadioSelect())
-    #def __init__(self, *args, **kwargs):
-     #   super(ShirtForm, self).__init__(*args, **kwargs)
-      #  available_sizes = [
-       #     (p.size, p.get_size_display()) for p in self.product.variants.all()
-        #]
-        #self.fields['size'].choices = available_sizes
+    def get_variant(self, clean_data):
+        print('----------------')
+        print(__name__)
+        print('get_variant:')
+        print('clean data ->')
+        print(clean_data)
+        dn = clean_data.get('dn')
+
+        return self.product.variants.get(dn=dn)
 
     #def get_variant(self, clean_data):
      #   size = clean_data.get('size')
       #  return self.product.variants.get(size=size,
        #                                  product__color=self.product.color)
+
 
 #staff
 def get_form_class_for_product(product):

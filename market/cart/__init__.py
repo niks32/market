@@ -10,8 +10,6 @@ from django.conf import settings
 from market.product.models.products import Product
 
 
-
-
 CART_SESSION_KEY = 'cart'
 
 
@@ -35,7 +33,7 @@ class Cart(cart.Cart):
     def for_session_cart(cls, session_cart):
         cart = Cart(session_cart)
         product_ids = [item.data['product_id'] for item in session_cart]
-        products = Product.objects.filter(id_in=product_ids)
+        products = Product.objects.filter(id__in=product_ids)
         products = products.select_subclasses()
         product_map = dict((p.id, p) for p in products)
         for item in session_cart:
@@ -46,7 +44,8 @@ class Cart(cart.Cart):
             else:
                 variant = product.variants.get(pk=item.data['variant_id'])
             quantity = item.quantity
-            cart.add(variant, quantity=quantity, )
+            cart.add(variant, quantity=quantity)
+        return cart
 
     def add(self, product, quantity=1, data=None, replace=False, skip_session_cart=False):
         super(cart, self).add(product, quantity, data, replace)
@@ -54,7 +53,8 @@ class Cart(cart.Cart):
         if not skip_session_cart:
             self.session_cart.add(product,quantity,data, replace=replace)
 
-
+    def __str__(self):
+        return 'Your cart (%(cart_count)s)' % { 'cart_count': self.count() }
 
 class SessionCartLine(cart.CartLine):
 
@@ -81,8 +81,8 @@ class SessionCartLine(cart.CartLine):
 @python_2_unicode_compatible
 class SessionCart(cart.Cart):
 
-    def __str__(self):
-        return 'SessionCart'
+    #def __str__(self):
+    #    return 'SessionCart'
 
     #SAVE
     def for_storage(self):
