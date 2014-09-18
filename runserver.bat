@@ -1,1 +1,0 @@
-python C:\Users\Niks\PycharmProjects\market\manage.py runserver
