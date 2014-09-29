@@ -34,10 +34,8 @@ class Category(MPTTModel):
 class Product(models.Model, ItemRange):
     name     = models.CharField(verbose_name='Наименование', max_length=128)
     category = models.ForeignKey('Category', verbose_name="Категория", related_name='products')
-<<<<<<< Updated upstream
-=======
     #price    = models.DecimalField(verbose_name='Цена', name='price',max_digits=15,decimal_places=2) не работает
->>>>>>> Stashed changes
+
 
     desc = models.TextField(verbose_name="Короткое описание", max_length=150, blank=True )
     desc_verbose = models.TextField(verbose_name="Полное описание", max_length=1000, blank=True)

@@ -31,13 +31,10 @@ class ValveForm(AddToCartForm):
     Форма заказа
     """
     dn = forms.ChoiceField(widget=forms.RadioSelect, label='Dn')
+    price = forms.IntegerField()
 
     def __init__(self, *args, **kwargs):
         super(ValveForm, self).__init__(*args, **kwargs)
-        print('File: '+__name__)
-        print('Function: '+sys._getframe().f_code.co_name)
-        print('-----------------------------------------')
-        print('Variants:')
 
         main_choices = []
         for p in self.product.variants.all():
@@ -47,11 +44,6 @@ class ValveForm(AddToCartForm):
         self.fields['dn'].choices = main_choices
 
     def get_variant(self, clean_data):
-        print('----------------')
-        print(__name__)
-        print('get_variant:')
-        print('clean data ->')
-        print(clean_data)
         dn = clean_data.get('dn')
 
         return self.product.variants.get(dn=dn)

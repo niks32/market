@@ -21,7 +21,6 @@ class CategoryAdmin(admin.ModelAdmin):
 class ValveVariant(admin.StackedInline):
     model   = ValveVariant
     formset = ProductVariantInline
-    price = Price
 
 class ValveAdmin(admin.ModelAdmin):
     form = ValveAdminForm
@@ -29,13 +28,10 @@ class ValveAdmin(admin.ModelAdmin):
     list_display = ['name', 'category']
     search_fields = ['name']
 
-<<<<<<< Updated upstream
-=======
 class Price(admin.StackedInline): #сюда прайс
     model = Product_Product
     inlines = ValveVariant
     list_editable = True
 
->>>>>>> Stashed changes
 admin.site.register(Category, MPTTModelAdmin)
 admin.site.register(Valve, ValveAdmin)

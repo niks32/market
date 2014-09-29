@@ -1,7 +1,7 @@
 from django.db    import models
 
 from .core_models import Product
-from .variants    import ProductVariant, StockedProduct
+from .variants    import ProductVariant, StockedProduct, PhysicalProduct
 
 class Valve(Product):
 
@@ -11,7 +11,7 @@ class Valve(Product):
         verbose_name_plural = u'Задвижки'
 
 
-class ValveVariant(ProductVariant, StockedProduct):
+class ValveVariant( ProductVariant, StockedProduct, PhysicalProduct ):
 
     product = models.ForeignKey(Valve, related_name='variants')
     dn = models.CharField(help_text="Dn", max_length=8)

@@ -18,6 +18,7 @@
                 <b>Категория:</b> {{ product.category }}<br>
                 <b>Короткое описание:</b><br> {{ product.desc | safe }}<br>
                 {{ product.desc_verbose | safe }}
+                PRICE{{ product.price }}
                 {%  block orderform %}
                 <form role="form" class="product-form" method="post" action=".">
                     {% csrf_token %}

@@ -3,8 +3,18 @@ from django.core.validators   import MinValueValidator
 from django.utils.encoding    import python_2_unicode_compatible
 #from django.core.urlresolvers import reverse
 
+
+from django.conf              import settings
 from decimal                  import Decimal
 from satchless.item           import Item, StockedItem
+from django_prices.models     import PriceField
+
+class PhysicalProduct(models.Model):
+    price = PriceField( 'price', currency=settings.DEFAULT_CURRENCY, max_digits=12, decimal_places=4)
+
+    class Meta:
+        abstract = True
+        app_label = 'product'
 
 
 class StockedProduct(models.Model, StockedItem):
@@ -29,12 +39,12 @@ class ProductVariant(models.Model, Item):
     def __str__(self):
         return self.name or self.product.name
 
-    def get_price_per_item(self, **kwargs):
-        if self.price is not None:
-            price = self.price
-        else:
-            price = self.product.price
-        return price
+   # def get_price_per_item(self, **kwargs):
+   #     if self.price is not None:
+   #         price = self.price
+   #     else:
+   #         price = self.product.price
+   #     return price
 
     def get_absolute_url(self):
         #slug = self.product.get_slug()
