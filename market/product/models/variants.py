@@ -4,10 +4,10 @@ from django.utils.encoding    import python_2_unicode_compatible
 #from django.core.urlresolvers import reverse
 
 
-from django.conf              import settings
-from decimal                  import Decimal
-from satchless.item           import Item, StockedItem
-from django_prices.models     import PriceField
+from django.conf            import settings
+from decimal                import Decimal
+from satchless.item         import Item, StockedItem
+from django_prices.models   import PriceField
 
 class PhysicalProduct(models.Model):
     price = PriceField( 'price', currency=settings.DEFAULT_CURRENCY, max_digits=12, decimal_places=4)

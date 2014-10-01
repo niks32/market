@@ -1,14 +1,14 @@
-from django.core.urlresolvers           import reverse
-from django.db                          import models
-from django.utils.encoding              import python_2_unicode_compatible
-from django.utils.safestring            import mark_safe
+from django.core.urlresolvers        import reverse
+from django.db                       import models
+from django.utils.encoding           import python_2_unicode_compatible
+from django.utils.safestring         import mark_safe
 
 
-from any_imagefield.models              import AnyImageField
-from model_utils.managers               import InheritanceManager
-from mptt.models                        import MPTTModel
-from satchless.item                     import ItemRange
-from unidecode                          import unidecode
+from any_imagefield.models           import AnyImageField
+from model_utils.managers            import InheritanceManager
+from mptt.models                     import MPTTModel
+from satchless.item                  import ItemRange
+from unidecode                       import unidecode
 import re
 
 
@@ -34,13 +34,12 @@ class Category(MPTTModel):
 class Product(models.Model, ItemRange):
     name     = models.CharField(verbose_name='Наименование', max_length=128)
     category = models.ForeignKey('Category', verbose_name="Категория", related_name='products')
-    #price    = models.DecimalField(verbose_name='Цена', name='price',max_digits=15,decimal_places=2) не работает
 
 
     desc = models.TextField(verbose_name="Короткое описание", max_length=150, blank=True )
     desc_verbose = models.TextField(verbose_name="Полное описание", max_length=1000, blank=True)
 
-    objects  = InheritanceManager()
+    objects = InheritanceManager()
 
     def __str__(self):
         return self.name
@@ -75,7 +74,7 @@ class ProductImage(models.Model):
         verbose_name_plural = "Изображение"
 
 class Product_Product(models.Model):
-    price = models.DecimalField(verbose_name='Cena', name=None, max_digits=10, decimal_places=2)
+    price = models.DecimalField(verbose_name='Цена', name=None, max_digits=15, decimal_places=2, default=0)
     # TODO price_vip
 
     class Meta:
