@@ -47,8 +47,21 @@ class Cart(cart.Cart):
             cart.add(variant, quantity=quantity)
         return cart
 
+    '''
+    Это что то...
+    '''
+    def get_data_for_product(self, variant):
+       variant_price = variant.get_price_per_item()
+       variant_data = {
+           'product_slug': variant.product.get_slug(),
+           'product_id': variant.product.pk,
+           'variant_id': variant.pk,
+           'unit_price_gross': str(variant_price.gross),
+           'unit_price_net': str(variant_price.net)}
+       return variant_data
+
     def add(self, product, quantity=1, data=None, replace=False, skip_session_cart=False):
-        super(cart, self).add(product, quantity, data, replace)
+        super(Cart, self).add(product, quantity, data, replace)
         data = self.get_data_for_product(product)
         if not skip_session_cart:
             self.session_cart.add(product,quantity,data, replace=replace)

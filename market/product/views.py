@@ -1,11 +1,14 @@
 from django.shortcuts           import get_object_or_404
 from django.template.response   import TemplateResponse
 from django.http                import HttpResponsePermanentRedirect
+from django.contrib             import messages   # Для эксперемента
 
 from market.cart import Cart
+from market.cart import forms
 
 from .forms                     import get_form_class_for_product
 from .models.core_models        import Category, Product
+from .models.variants import StockedProduct, ProductVariant
 
 
 import logging
@@ -55,9 +58,27 @@ def product_details(request, slug, product_id):
     cart = Cart.for_session_cart(request.cart)
     form = form_class(cart=cart, product=product, data=request.POST or None) #VavleForm() init
 
+    '''
+    больше творчества
+    '''
+    '''
+    if form.is_valid():
+        if form.clean['quantity']:
+            msq = ('%(product) добавлен в корзину.') % {'product': product}
+            messages.success(request, msq)
+        form.save()
+        print("form.save()")
+    '''
+
+    '''
     if request.POST:
-        logging.debug('form_valid(): '+str(form.is_valid()))
+        #logging.debug('form_valid(): '+str(form.is_valid()))
         #field_errors = [ (field.label, field.errors) for field in form]
+        #form.save()
+        msq = ('%(product) добавлен в корзину.') % {'product': product}
+        messages.success(request, msq)
+        form.save()
+    '''
 
 
     ctx = {'product': product, 'form': form}
