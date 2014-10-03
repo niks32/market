@@ -58,9 +58,10 @@ def product_details(request, slug, product_id):
     cart = Cart.for_session_cart(request.cart)
     form = form_class(cart=cart, product=product, data=request.POST or None) #VavleForm() init
 
-    '''
+    """
     больше творчества
-    '''
+    """
+
     '''
     if form.is_valid():
         if form.clean['quantity']:
@@ -70,15 +71,14 @@ def product_details(request, slug, product_id):
         print("form.save()")
     '''
 
-    '''
     if request.POST:
         #logging.debug('form_valid(): '+str(form.is_valid()))
         #field_errors = [ (field.label, field.errors) for field in form]
         #form.save()
-        msq = ('%(product) добавлен в корзину.') % {'product': product}
+        msq = ('добавлен в корзину.')
         messages.success(request, msq)
         form.save()
-    '''
+
 
 
     ctx = {'product': product, 'form': form}

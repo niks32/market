@@ -11,6 +11,7 @@ class ValveAdminForm(forms.ModelForm):
     """
     class Meta:
         model = Valve
+        #widgets = {'collection': }
 
 
 class ProductVariantInline(forms.models.BaseInlineFormSet):
@@ -45,7 +46,6 @@ class ValveForm(AddToCartForm):
 
     def get_variant(self, clean_data):
         dn = clean_data.get('dn')
-
         return self.product.variants.get(dn=dn)
 
     #def get_variant(self, clean_data):

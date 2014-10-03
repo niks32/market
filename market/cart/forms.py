@@ -41,11 +41,11 @@ class AddToCartForm(forms.Form):
             #TODO: смотреть get_variant
             product_variant = self.get_variant(cleaned_data)
         except ObjectDoesNotExist:
-            msg = self.error_messages['variant-does-not-exists']
+            msg = self.error_messages['Вариант продукта не найден']
             self.add_error(NON_FIELD_ERRORS, msg)
         else:
             cart_line = self.cart.get_line(product_variant)
-            used_quantity = cart_line.get_quantity if cart_line else 0
+            used_quantity = cart_line.quantity if cart_line else 0
             new_quantity = quantity + used_quantity
             try:
                 self.cart.check_quantity(
@@ -53,6 +53,7 @@ class AddToCartForm(forms.Form):
             except InsufficientStock as e:
                 remaining = e.item.stock - used_quantity
                 if remaining:
+
                     msg = self.error_messages['insufficient-stock']
                 else:
                     msg = self.error_messages['empty-stock']
