@@ -18,16 +18,19 @@ class CartLine(cart.CartLine):
     def __init__(self, product, quantity, data=None):
         super(CartLine, self).__init__(product, quantity, data=data)
 
+
     def get_price_per_item(self, **kwargs):
         return super(CartLine, self).get_price_per_item(**kwargs)
 
 @python_2_unicode_compatible
 class Cart(cart.Cart):
-
    # Содержит объекты, экземпляр класса сохраняется в сессии.
-
     timestamp = None
     billing_address = None
+
+    def __inti__(self, session_cart, discounts=None):
+       super(Cart, self).__init__()
+       self.session_cart = session_cart
 
     @classmethod
     def for_session_cart(cls, session_cart):
@@ -44,9 +47,11 @@ class Cart(cart.Cart):
             else:
                 variant = product.variants.get(pk=item.data['variant_id'])
             quantity = item.quantity
-            cart.add(variant, quantity=quantity)
+            cart.add(variant, quantity=quantity, check_quantity=False, skip_session_cart=True)
         return cart
 
+    def __str__(self):
+        return 'Your cart (%(cart_count)s)' % { 'cart_count': self.count() }
     '''
     Это что то...
     '''
@@ -60,14 +65,19 @@ class Cart(cart.Cart):
            'unit_price_net': str(variant_price.net)}
        return variant_data
 
-    def add(self, product, quantity=1, data=None, replace=False, skip_session_cart=False):
-        super(Cart, self).add(product, quantity, data, replace)
+    def add(self, product, quantity=1, data=None, replace=False, check_quantity=True, skip_session_cart=False):
+        super(Cart, self).add(product, quantity, data, replace, check_quantity)
         data = self.get_data_for_product(product)
         if not skip_session_cart:
-            self.session_cart.add(product,quantity,data, replace=replace)
+           self.session_cart.add(product,quantity,data, replace=replace)
 
-    def __str__(self):
-        return 'Your cart (%(cart_count)s)' % { 'cart_count': self.count() }
+    def clear(self):
+        super(Cart.self).clear()
+        self.session_cart.clear()
+
+    def create_line(self, product, quantity, data):
+        return CartLine(product, quantity, data)
+
 
 class SessionCartLine(cart.CartLine):
 

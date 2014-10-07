@@ -11,6 +11,7 @@ def index(request):
     cart = Cart.for_session_cart(request.cart)
     cart_partitioner = Partitioner(cart)
     formset = ReplaceCartLineFormSet(request.POST or None, cart=cart)
+
     if formset.is_valid():
         msg = 'Количества товаров были обновлены'
         messages.success(request, msg)

@@ -1,4 +1,4 @@
-from django.shortcuts           import get_object_or_404
+from django.shortcuts           import get_object_or_404, redirect
 from django.template.response   import TemplateResponse
 from django.http                import HttpResponsePermanentRedirect
 from django.contrib             import messages   # Для эксперемента
@@ -13,6 +13,12 @@ from .models.variants import StockedProduct, ProductVariant
 
 import logging
 
+def get_related_products(product):
+    if not product.collection:
+        return []
+    related_products = Product.odjects.filter(collection=product.collection)
+    related_products = related_products.perfetch_related('images')
+    return related_products
 
 def category(request):
     """
@@ -58,19 +64,35 @@ def product_details(request, slug, product_id):
     cart = Cart.for_session_cart(request.cart)
     form = form_class(cart=cart, product=product, data=request.POST or None) #VavleForm() init
 
-    """
-    больше творчества
-    """
 
-    '''
+    #больше творчества
+
+
+    if form.is_valid():
+        if form.cleaned_data['quantity']:
+            msg = ('Added %(product)s to your cart.') % {
+                'product': product}
+            messages.success(request, msg)
+        form.save()
+        return redirect('product:details', slug=slug, product_id=product_id)
+    template_name = 'product/details_%s.html' % (
+        type(product).__name__.lower(),)
+    templates = [template_name, 'product/details.html']
+    #related_products = get_related_products(product)
+    return TemplateResponse(
+        request, templates,
+        {'product': product, 'form': form})
+         #'related_products': related_products})
+
+'''
     if form.is_valid():
         if form.clean['quantity']:
             msq = ('%(product) добавлен в корзину.') % {'product': product}
             messages.success(request, msq)
         form.save()
         print("form.save()")
-    '''
-
+'''
+'''
     if request.POST:
         #logging.debug('form_valid(): '+str(form.is_valid()))
         #field_errors = [ (field.label, field.errors) for field in form]
@@ -78,9 +100,10 @@ def product_details(request, slug, product_id):
         msq = ('добавлен в корзину.')
         messages.success(request, msq)
         form.save()
+'''
 
-
-
+'''
     ctx = {'product': product, 'form': form}
 
     return TemplateResponse(request, 'product/details.html', ctx)
+'''

@@ -48,6 +48,8 @@ class ValveForm(AddToCartForm):
         dn = clean_data.get('dn')
         return self.product.variants.get(dn=dn)
 
+
+
     #def get_variant(self, clean_data):
      #   size = clean_data.get('size')
       #  return self.product.variants.get(size=size,

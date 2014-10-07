@@ -34,11 +34,8 @@ class Category(MPTTModel):
 class Product(models.Model, ItemRange):
     name     = models.CharField(verbose_name='Наименование', max_length=128)
     category = models.ForeignKey('Category', verbose_name="Категория", related_name='products')
-
-
     desc = models.TextField(verbose_name="Короткое описание", max_length=150, blank=True )
     desc_verbose = models.TextField(verbose_name="Полное описание", max_length=1000, blank=True)
-
     objects = InheritanceManager()
 
     def __str__(self):
@@ -50,8 +47,11 @@ class Product(models.Model, ItemRange):
         return iter(getattr(self, '__variants'))
 
     def get_absolute_url(self):
-        return reverse('product:details', kwargs={'slug': self.get_slug(),
-                                                  'product_id': self.id})
+        return reverse('product:details', kwargs={'slug': self.get_slug(),'product_id': self.id})
+
+    def __repr__(self):
+        class_ = type(self)
+        return '<%s.%s(pk=%r, name=%r)>' % (class_.__module__, class_.__name__, self.pk, self.name)
 
     def get_slug(self):
         value = unidecode(self.name)
