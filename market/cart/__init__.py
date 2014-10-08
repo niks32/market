@@ -28,7 +28,7 @@ class Cart(cart.Cart):
     timestamp = None
     billing_address = None
 
-    def __inti__(self, session_cart, discounts=None):
+    def __init__(self, session_cart, discounts=None):
        super(Cart, self).__init__()
        self.session_cart = session_cart
 
