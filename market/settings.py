@@ -136,4 +136,6 @@ USE_L10N = True
 
 USE_TZ = True
 
+SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
+
 LOGIN_REDIRECT_URL = 'home'
