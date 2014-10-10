@@ -36,8 +36,6 @@ TEMPLATE_DIRS = [
 ]
 
 TEMPLATE_CONTEXT_PROCESSORS = [
-'django.core.context_processors.request',
-"django.core.context_processors.csrf",
 "django.contrib.auth.context_processors.auth",
 "django.core.context_processors.debug",
 "django.core.context_processors.i18n",
@@ -45,6 +43,11 @@ TEMPLATE_CONTEXT_PROCESSORS = [
 "django.core.context_processors.static",
 "django.core.context_processors.tz",
 "django.contrib.messages.context_processors.messages",
+"django.core.context_processors.request",
+"saleor.core.context_processors.default_currency",
+
+"django.core.context_processors.csrf",
+
 ]
 
 TEMPLATE_LOADERS = [
@@ -78,6 +81,7 @@ INSTALLED_APPS = (
 
     # External apps
     'south',
+    'babeldjango'
     'debug_toolbar',
     'captcha',
     'any_imagefield',
@@ -91,6 +95,8 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.middleware.locale.LocaleMiddleware'
+    'babeldjango.middleware.LocateMiddleware'
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'market.cart.middleware.CartMiddleware',
