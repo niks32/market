@@ -81,7 +81,7 @@ INSTALLED_APPS = (
 
     # External apps
     'south',
-    'babeldjango'
+    #'babeldjango'
     'debug_toolbar',
     'captcha',
     'any_imagefield',
@@ -95,8 +95,8 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.middleware.locale.LocaleMiddleware'
-    'babeldjango.middleware.LocateMiddleware'
+    'django.middleware.locale.LocaleMiddleware',
+    #'babeldjango.middleware.LocaleMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'market.cart.middleware.CartMiddleware',
