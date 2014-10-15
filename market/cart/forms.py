@@ -1,5 +1,5 @@
 from django import forms
-from django.forms.formsets import BaseFormSet
+from django.forms.formsets import BaseFormSet, DEFAULT_MAX_NUM
 from django.core.exceptions import ObjectDoesNotExist, NON_FIELD_ERRORS
 
 from satchless.item import InsufficientStock
@@ -109,6 +109,15 @@ class ReplaceCartLineFormSet(BaseFormSet):
     """
     Formset for all CartLines in the cart instance
     """
+    absolute_max = 9999
+    can_delete = False
+    can_order = False
+    extra = 0
+    form = ReplaceCartLineForm
+    max_num = DEFAULT_MAX_NUM
+    validate_max = False
+    min_num = None
+    validate_min = False
 
     def __init__(self, *args, **kwargs):
         self.cart = kwargs.pop('cart')
