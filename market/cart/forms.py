@@ -83,7 +83,7 @@ class ReplaceCartLineForm(AddToCartForm):
     Замена количества в CartLine
     """
     def __init__(self, *args, **kwargs):
-        super(ReplaceCartLineForm).__init__(*args, **kwargs)
+        super(ReplaceCartLineForm, self).__init__(*args, **kwargs)
         self.cart_line = self.cart.get_line(self.product)
 
     def clean_quantity(self):
