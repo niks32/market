@@ -18,7 +18,8 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th class="col-sm-4">Продукт</th>
+                <th class="col-sm-3">Продукт</th>
+                <th class="col-sm-2">Исполнение</th>>
                 <th class="col-sm-2">Количество</th>
                 <th class="col-sm-2">Цена</th>
                 <th class="col-sm-2">Всего</th>
@@ -26,22 +27,24 @@
         </thead>
         <tfoot>
             <tr>
-                <td class="col-sm-4"></td>
+                <td class="col-sm-3"></td>
+                <td class="col-sm-2"></td>
                 <td class="col-sm-2">
                     <button class="btn btn-default" type="submit">
-                        Обновить количество
+                        {% trans "Обновить количество" %}
                     </button>
                 </td>
                 <th class="col-sm-2">Итого:</th>
-                <td class="col-sm-2">{{ cart.get_total }}</td>
+                <td class="col-sm-2">{% gross cart.get_total %}</td>
             </tr>
         </tfoot>
         <tbody>
             {% for form in formset %}
             <tr>
                 <td>
-                    <a href="{{ form.cart_line.product.get_absolute_url }}">{{ form.cart_line.product }}</a>
+                    <a href="{{ form.cart_line.product.get_absolute_url }}"><H4>{{ form.cart_line.product }}</H4></a>
                 </td>
+                <td>Dn:{{ form.cart_line.product }}</td>
                 <td>{{ form.quantity|as_vertical_form:False }}</td>
                 <td>{% gross form.cart_line.get_price_per_item %}</td>
                 <td>{% gross form.cart_line.get_total %}</td>
@@ -51,7 +54,7 @@
     </table>
     <div class="form-group">
         <div>
-            <a href="{% url "checkout:index" %}" class="btn btn-primary">Checkout</a>
+            <a href="{% url "cart:index" %}" class="btn btn-primary">Checkout</a>
         </div>
     </div>
 </form>

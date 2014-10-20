@@ -7,7 +7,7 @@ from django.utils.encoding import python_2_unicode_compatible
 from django.conf import settings
 
 #own
-from market.product.models.products import Product
+from market.product.models.products import Product, ValveVariant
 
 
 CART_SESSION_KEY = 'cart'
@@ -18,9 +18,13 @@ class CartLine(cart.CartLine):
     def __init__(self, product, quantity, data=None):
         super(CartLine, self).__init__(product, quantity, data=data)
 
-
     def get_price_per_item(self, **kwargs):
         return super(CartLine, self).get_price_per_item(**kwargs)
+'''
+    def get_name_variant(self):
+        neme_variant = Product.dn.self
+        return neme_variant
+'''
 
 @python_2_unicode_compatible
 class Cart(cart.Cart):

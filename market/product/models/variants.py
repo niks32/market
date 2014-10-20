@@ -10,6 +10,8 @@ from satchless.item           import Item, StockedItem
 from django_prices.models     import PriceField
 from django.utils.translation import pgettext_lazy
 
+from market.product.models.core_models import Product
+
 class PhysicalProduct(models.Model):
     price = PriceField( 'price', currency=settings.DEFAULT_CURRENCY, max_digits=12, decimal_places=4)
 
@@ -31,9 +33,8 @@ class StockedProduct(models.Model, StockedItem):
 
 @python_2_unicode_compatible
 class ProductVariant(models.Model, Item):
-    name = models.CharField(u'Название', max_length=128, blank=True, default='')
-    #sku = models.CharField(pgettext_lazy('Product field', 'sku'), max_length=32, unique=True) #Предопределить
-    # атрибут цен для реализации каждого варианта цены
+    name = models.CharField(u'Название', max_length=128, blank=True, default="") #???
+    #name = models.CharField(choices=Product.name)
 
     class Meta:
         abstract  = True

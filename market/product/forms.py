@@ -32,7 +32,6 @@ class ValveForm(AddToCartForm):
     Форма заказа
     """
     dn = forms.ChoiceField(widget=forms.RadioSelect, label='Dn')
-    #price = forms.IntegerField()
 
     def __init__(self, *args, **kwargs):
         super(ValveForm, self).__init__(*args, **kwargs)
