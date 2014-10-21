@@ -1,7 +1,7 @@
 from satchless.item import Partitioner
 
 from django.contrib           import messages
-from django.shortcuts         import  redirect
+from django.shortcuts         import redirect
 from django.template.response import TemplateResponse
 
 from .      import Cart

@@ -10,7 +10,6 @@ from .forms                     import get_form_class_for_product
 from .models.core_models        import Category, Product
 from .models.variants import StockedProduct, ProductVariant
 
-
 import logging
 
 def get_related_products(product):
@@ -64,10 +63,6 @@ def product_details(request, slug, product_id):
     cart = Cart.for_session_cart(request.cart)
     form = form_class(cart=cart, product=product, data=request.POST or None) #VavleForm() init
 
-
-    #больше творчества
-
-
     if form.is_valid():
         if form.cleaned_data['quantity']:
             msg = ('Added %(product)s to your cart.') % {
@@ -85,14 +80,6 @@ def product_details(request, slug, product_id):
          #'related_products': related_products})
 
 '''
-    if form.is_valid():
-        if form.clean['quantity']:
-            msq = ('%(product) добавлен в корзину.') % {'product': product}
-            messages.success(request, msq)
-        form.save()
-        print("form.save()")
-'''
-'''
     if request.POST:
         #logging.debug('form_valid(): '+str(form.is_valid()))
         #field_errors = [ (field.label, field.errors) for field in form]
@@ -100,10 +87,4 @@ def product_details(request, slug, product_id):
         msq = ('добавлен в корзину.')
         messages.success(request, msq)
         form.save()
-'''
-
-'''
-    ctx = {'product': product, 'form': form}
-
-    return TemplateResponse(request, 'product/details.html', ctx)
 '''

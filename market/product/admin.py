@@ -3,7 +3,6 @@ from django.contrib import admin
 from .models.core_models import Category, ProductImage, Product_Product
 from .models.products    import Valve, ValveVariant
 #from .models.images      import ProductImage
-
 from .forms import ProductVariantInline, ValveAdminForm
 
 from mptt.admin import MPTTModelAdmin

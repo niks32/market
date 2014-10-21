@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 {% load as_vertical_form from bootstrap %}
-{% load gross from prices %}
+{% load gross from prices_i18n %}
 {% load i18n %}
 
-{% block title %}Ваша Корзина — {{ block.super }}{% endblock %}
+{% block title %}{% trans "Ваша Корзина" %} — {{ block.super }}{% endblock %}
 
 {% block breadcrumb %}
     {{ block.super }}
-<li><a href="{% url 'cart:index' %}">Корзина</a></li>
+<li><a href="{% url 'cart:index' %}">{% trans "Корзина" %}</a></li>
 {% endblock breadcrumb %}
 
 {% block content %}
@@ -18,11 +18,11 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th class="col-sm-3">Продукт</th>
-                <th class="col-sm-2">Исполнение</th>>
-                <th class="col-sm-2">Количество</th>
-                <th class="col-sm-2">Цена</th>
-                <th class="col-sm-2">Всего</th>
+                <th class="col-sm-3">{% trans "Продукт" %}</th>
+                <th class="col-sm-2">{% trans "Исполнение" %}</th>>
+                <th class="col-sm-2">{% trans "Количество" %}</th>
+                <th class="col-sm-2">{% trans "Цена" %}</th>
+                <th class="col-sm-2">{% trans "Всего" %}</th>
             </tr>
         </thead>
         <tfoot>
@@ -34,7 +34,7 @@
                         {% trans "Обновить количество" %}
                     </button>
                 </td>
-                <th class="col-sm-2">Итого:</th>
+                <th class="col-sm-2">{% trans "Итого:" %}</th>
                 <td class="col-sm-2">{% gross cart.get_total %}</td>
             </tr>
         </tfoot>
@@ -54,13 +54,13 @@
     </table>
     <div class="form-group">
         <div>
-            <a href="{% url "cart:index" %}" class="btn btn-primary">Checkout</a>
+            <a href="{% url "cart:index" %}" class="btn btn-primary">{% trans "Checkout" %}</a>
         </div>
     </div>
 </form>
 {% else %}
 <p>
-    Ваша корзина пуста.
+    {% trans "Ваша корзина пуста." %}
 </p>
 {% endif %}
 {% endblock content %}
