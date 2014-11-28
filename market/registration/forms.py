@@ -29,6 +29,7 @@ class LoginForm(AuthenticationForm):
 # форма регистрации
 
 class RegistrationForm(forms.Form):
+    exclude = []
     error_messages = {
         'duplicate_username': "Пользователь с таким логином уже существует.",
         'password_mismatch': "Пароли должны совпадать.",

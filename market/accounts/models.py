@@ -3,12 +3,24 @@ import re
 from django.contrib.auth.models import AbstractUser, UserManager
 from django.db                  import models
 from django.utils.safestring    import mark_safe
+from django.forms.models        import model_to_dict
 
 from unidecode                  import unidecode
 from any_imagefield.models      import AnyImageField
 
 class CompanyBookManager(models.Manager):
-    pass
+    def store_address(self, user, address, alias):
+        data = Company.objects.as_data(address)
+        query = dict(('address__%s' % (key,), value)
+                     for key, value in data.items())
+        candidates = self.get_queryset().filter(user=user, **query)
+        candidates = candidates.select_for_update()
+        try:
+            entry = candidates[0]
+        except IndexError:
+            address = Company.objects.create(**data)
+            entry = CompanyBook.objects.create(user=user, address=address, alias=alias)
+        return entry
 
 
 class CompanyBook(models.Model):
@@ -40,7 +52,14 @@ class CompanyBook(models.Model):
 
 
 class CompanyManager(models.Manager):
-    pass
+
+    def as_data(self, co):
+        return model_to_dict(co, exclude=['id', 'user'])
+
+    def are_identical(self, co1, co2):
+        data1 = self.as_data(co1)
+        data2 = self.as_data(co2)
+        return data1 == data2
 
 class Company(models.Model):
     company_name = models.CharField(name="company_name", max_length=256, blank=False)
@@ -64,7 +83,30 @@ AbstractUser._meta.get_field('email')._blank    = False
 AbstractUser._meta.get_field('username')._blank = True
 
 class UserManager(UserManager):
-    pass
+
+    def get_or_create(self, **kwargs):
+        defaults = kwargs.pop('defaults', {})
+        try:
+            return self.get_query_set().get(**kwargs), False
+        except self.model.DoesNotExist:
+            defaults.update(kwargs)
+            return self.create_user(**defaults), True
+
+    def create_user(self, email, password=None, is_staff=False, is_active=True, **extra_fields):
+        # Создает пользователся с данными: имя, email, пароль
+        email = UserManager.normalize_email(email)
+        user = self.model(email=email, is_active=is_active, is_staff=is_staff, **extra_fields)
+        if password:
+            user.set_password(password)
+        user.save()
+        return user
+
+    def create_superuser(self, email, password, **extra_fields):
+        return self.create_user(email, password, is_staff=True, is_superuser=True, **extra_fields)
+
+    def store_address(self, user, company, alias, billing=False, shipping=False):
+        pass
+    
 
 class User(AbstractUser):
     phone  = models.CharField(max_length=20, blank=True)

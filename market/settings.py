@@ -1,5 +1,7 @@
 import os
 
+from django.contrib.messages import constants as messages
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -65,11 +67,12 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'babeldjango.middleware.LocaleMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'market.cart.middleware.CartMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = [
@@ -109,7 +112,7 @@ INSTALLED_APPS = (
     'market.product',
 
     # External apps
-    'south',
+    #'south',
     'babeldjango',
     'django_images',
     'django_prices',
@@ -141,6 +144,7 @@ DEFAULT_CURRENCY = 'USD'
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
 
+TIME_ZONE='America/Chicago'
 LANGUAGE_CODE = 'ru-ru'
 
 USE_I18N = True
@@ -150,5 +154,7 @@ USE_TZ = True
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
 
 LOGIN_REDIRECT_URL = 'home'
+
+#PAYMENT_HOSY = 'localhost:8000'
 
 #PAYMENT_VARIANTS = {'default': ('payments.dummy.DummyProvider')}

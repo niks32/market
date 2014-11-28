@@ -4,11 +4,13 @@ from .models import User, Company, CompanyBook
 from django  import forms
 from any_imagefield.forms   import ImagePreviewField
 
+
 class AdminUserAddForm(UserCreationForm):
 
     class Meta:
         model  = User
         fields = ("username", "email", "password1", "password2")
+        exclude = []
 
     def clean_username(self):
         # Since User.username is unique, this check is redundant,
@@ -33,6 +35,8 @@ class CompanyForm(forms.ModelForm):
 
     class Meta:
         model = Company
+        exclude = []
+
 
     company_name = forms.CharField(label="Наименование")
     phone        = forms.CharField(label="Телефон")

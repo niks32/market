@@ -11,6 +11,7 @@ class ValveAdminForm(forms.ModelForm):
     """
     class Meta:
         model = Valve
+        exclude = []
         #widgets = {'collection': }
 
 
